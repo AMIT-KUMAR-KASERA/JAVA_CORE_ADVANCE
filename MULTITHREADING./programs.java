@@ -199,6 +199,28 @@ public class Example
     }
 }
 
+i value is :1
+Thread is interrupted
+i value is :2
+Thread is interrupted
+i value is :3
+Thread is interrupted
+i value is :4
+Thread is interrupted
+i value is :5
+Thread is interrupted
+i value is :6
+Thread is interrupted
+i value is :7
+Thread is interrupted
+i value is :8
+Thread is interrupted
+i value is :9
+Thread is interrupted
+i value is :10
+Thread is interrupted
+
+
 
 Q11) In this program run method will be executed or not ?
 class MyRunnable implements Runnable 
@@ -215,19 +237,22 @@ class MyRunnable implements Runnable
     }
 }
 
+ans:-not executed
+
 
 Q12) What is the default name of the main thread in Java?
 A) MainThread
 B) Primary
 C) Thread-0
 D) main
+main
 
 Q13) Which method tells if a thread is alive or has finished execution?
 A) isFinished()
 B) isCompleted()
 C) isAlive()
 D) getState()
-
+C) isAlive()
 
 Q14) What is the output of this code 
 public class Test extends Thread 
@@ -254,7 +279,8 @@ B) 0 1 2
 C) 0 0 1 1 2 2 3 3 4 4 5 5
 D) Output is Un-Predictable
 
-
+D) Output is Un-Predictable
+	
 Q15) What happens if you try to call start() on the same thread instance more than once?
 Thread t = new Thread();
 t.start();
@@ -263,18 +289,21 @@ A) The thread restarts successfully
 B) It runs twice in parallel
 C) It throws an IllegalThreadStateException
 D) It is ignored silently
+ It throws an IllegalThreadStateException
 
 Q16) Which of the following is a valid way to "restart" a thread's logic after it finishes?
 A) Call start() again on the same thread
 B) Call run() again
 C) Create a new Thread instance and start it
 D) Use Thread.reset()
-
+C) Create a new Thread instance and start it
+	
 Q17) What does the isAlive() method return?
 A) Whether the thread object is valid
 B) Whether the thread has started and not yet died
 C) Whether the thread was created successfully
 D) Whether the thread is paused
+B) Whether the thread has started and not yet died
 
 Q18) What is the output of the following code 
 class MyThread extends Thread 
@@ -295,19 +324,26 @@ public class Test
     }
 }
 
+false
+true
+Running
+
+
 Q19) Which thread’s name is returned by Thread.currentThread().getName()?
 A) The main thread’s name
 B) The thread object on which currentThread() is called
 C) The thread currently executing the code
 D) None of the above
 
-
+C) The thread currently executing the code
+	
 Q20) What is the purpose of the setName() method in the Thread class?
 A) To start the thread with a specific name
 B) To assign a name to the thread
 C) To stop the thread
 D) To pause the thread
 
+B) To assign a name to the thread
 ========================================================================
 Coding Question :
 ------------------
@@ -346,13 +382,92 @@ Output :
 82 by main	84 by main	86 by main	88 by main	90 by main	
 92 by main	94 by main	96 by main	98 by main	100 by main	
 
+
+
+class OddEvenThread extends Thread 
+{
+    public void run() 
+    {
+       for(int i=1;i<=100;i=i+2)
+       {
+           System.out.println(i +" by "+Thread.currentThread().getName());
+       }
+    }
+}
+public class Main
+{
+    public static void main(String[] args)
+    {
+        OddEvenThread t = new OddEvenThread();
+        t.start();
+        
+        try{
+            t.join();
+        }
+        catch(InterruptedException e)
+        {
+             e.printStackTrace();
+        }
+        
+        for(int i=2;i<=100;i+=2)
+        {
+            System.out.println(i +" by "+Thread.currentThread().getName());
+            
+        }
+    }
+}
+
 Assignment 02 :
 ---------------
 Re-Write the above program where even and odd numbers printing should be done by two different child threads (class name is EvenThread and OddThread, both are extending from Thread class). Here first of all even number should be printed then only odd numbers.
 
 
 
-
+class Odd extends Thread 
+{
+    public void run() 
+    {
+       for(int i=1;i<=100;i=i+2)
+       {
+           System.out.println(i +" by "+Thread.currentThread().getName());
+       }
+    }
+}
+class Even extends Thread{
+    public void run()
+    {
+         for(int i=2;i<=100;i+=2)
+        {
+            System.out.println(i +" by "+Thread.currentThread().getName());
+            
+        }
+        
+    }
+}
+public class Main
+{
+    public static void main(String[] args)
+    {
+         Even t2=new Even();
+         Odd t1= new Odd();
+         
+        t2.start();
+        try{
+            t2.join();
+        }
+        catch(InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+        
+        
+        t1.start();
+       
+        
+        
+       
+    }
+}
 
 
 
