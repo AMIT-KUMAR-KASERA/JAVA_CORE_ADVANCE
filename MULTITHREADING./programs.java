@@ -1977,6 +1977,235 @@ public static void main(String[] args)
  }
 -----------------------------------------------------------------------
 
+========================================================================================================================================================================================
+	                                                                                                                                                       31-07-2025
+
+	Develop a scenario based program by using ITC to complete offline 
+Order Delivery System in a Restaurant.
+
+The scenario is :
+A Restaurant waiter will place the food to order to chef and waiting for 
+food preparation.
+A Restaurant chef will prepare the food and notify the waiter after 
+preparation.
+
+Coding Requirements:
+--------------------
+Create a BLC class called Restaurant.
+
+Fields/Attributes/Properties [private access modifier]
+------------------------------------------------------
+name:String
+order:String 
+boolean isOrderReady = false; //[Initial Order Status]
+    
+Take a paraneterized constructor to initialize the Restaurant name.
+
+Methods :
+---------    
+    1) Method Name 		: placeOrder()
+       Parameter   		: order of type STring
+       Return Type 		: void
+       Access modifier		: public
+       Modifier			: synchronized
+       In this method initialize the order through parameter variable. After
+       placing the order, Waiter will Wait until chef notifies that food is ready. Once waiter will get notification from chef, Waiter can serve 
+       the food.
+
+   2) Method Name 		: prepareOrder()
+       Parameter   		: No Parameter
+       Return Type 		: void
+       Access modifier		: public
+       Modifier			: synchronized
+       In this method chef will prepare the food.It will take some time 
+       based on food. After food preparation, It will notify to the waiter
+       so waiter can server the food.
+
+    3) Create a getter method getRestaurantName() to get the name of the 
+       Restaurant.
+
+Take another BLC class called Waiter which extends from Thread
+
+Fields/Attributes/Properties [private access modifier]
+------------------------------------------------------
+  restaurant Restaurant
+  orderName  String
+
+Take a parameterized constructor to initialize the restaurant property.
+
+Methods :
+---------    
+    1) Method Name 		: acceptOrder()
+       Parameter   		: orderName of type STring
+       Return Type 		: void
+       Access modifier		: public
+       In this method take the order from the customer and initialize non static variable.
+
+   2) Override the run method, inside this run method place the customer oder
+      in the Restaurant for preparation.
+
+Take another BLC class called Chef which extends from Thread
+
+Fields/Attributes/Properties [private access modifier]
+------------------------------------------------------
+  restaurant Restaurant
+
+  Take a parameterized constructor to initialize the restaurant property.
+
+Methods :
+---------    
+   1) Override the run method, inside this run method prepare the customer oder
+      in the Restaurant for serving.
+
+
+Create one ELC class RestaurantSystem to get the following order of Output :
+
+Output Format :
+----------------
+Welcome to KFC Restaurant!!!
+Waiter: Placed order for fried chicken
+Chef: Preparing fried chicken
+Chef: fried chicken is ready!
+Waiter: Serving the fried chicken
+
+
+package com.threading.com;
+
+public class Restaurant {
+	private String name;
+	private String order;
+	private boolean isOrderReady=false;
+	public Restaurant(String name) {
+		super();
+		this.name = name;
+		
+	}
+	
+	public synchronized void placeOrder(String order)
+	{
+		this.order=order;
+		System.out.println("Waiter: Placed order for "+order);
+		
+		try {
+			while(!isOrderReady)
+			wait(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		System.out.println("Waiter: Serving the "+order);
+		
+	}
+	
+	public synchronized void prepareOrder()
+	{
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			
+			e.printStackTrace();
+		}
+		System.out.println("Chef: Preparing "+ order);
+		
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		isOrderReady=true;
+		System.out.println("Chef: "+order+" is ready");
+		
+		notify();
+		
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			
+			e.printStackTrace();
+		}
+		
+	}
+	public String getRestaurantName()
+	{
+		return name;
+	}
+
+}
+
+package com.threading.com;
+
+public class Waiter extends Thread {
+	private Restaurant restaurant;
+	private String orderName;
+	public Waiter(Restaurant restaurant) {
+		super();
+		this.restaurant = restaurant;
+	}
+	
+	public void acceptOrder(String orderName) {
+		
+		this.orderName=orderName;
+	}
+	@Override
+	public void run() {
+		restaurant.placeOrder(orderName);
+		
+	}
+	
+
+}
+
+package com.threading.com;
+
+public class Chef extends Thread {
+	private Restaurant restaurant;
+
+	public Chef(Restaurant restaurant) {
+		super();
+		this.restaurant = restaurant;
+	}
+	
+	@Override
+	public void run() {
+		restaurant.prepareOrder();
+		
+	}
+
+}
+
+
+
+package com.threading.com;
+
+public class RestaurantSystem {
+
+	public static void main(String[] args) throws InterruptedException {
+		Restaurant r=new Restaurant("KFC");
+		System.out.println("Welcome to "+r.getRestaurantName()+" Restaurant!!!");
+		
+		Thread.sleep(2000);
+		Waiter w=new Waiter(r);
+		
+		Chef c=new Chef(r);
+		
+		w.acceptOrder("fried chicken");
+		
+		w.start();
+		c.start();
+		
+
+	}
+
+}
+
+
+
+
+
+
+
+
+
 
 
 
