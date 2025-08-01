@@ -2268,6 +2268,145 @@ Create a BLC class called Account
     
  Create an ELC class ATMMachine, inside main method create object as per 
  requirement, start both the threads to see inter thread communication result
+
+ans:-   
+package com.threading.com;
+
+public class Account {
+	private int balance=0;
+	
+	public synchronized void withdraw(int amount) 
+	{
+		while(amount>this.balance)
+		{
+			System.out.println("insufficeint balance");
+			try {
+			wait();
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		System.out.println("withdraw the amount is : "+amount);
+		this.balance=balance-amount;
+		System.out.println("successfully withdraw !!!");
+		
+		
+	}
+	
+	public synchronized void deposit(int amount)
+	{
+		System.out.println("deposite the amount is : "+amount);
+		this.balance+=amount;
+		System.out.println("deposite succefully!!!");
+		notify();
+	}
+	public int getBalance()
+	{
+		return this.balance;
+	}
+
+}
+
+
+package com.threading.com;
+
+public class Depositor extends Thread {
+	private Account account;
+
+	public Depositor(Account account) {
+		super();
+		this.account = account;
+	}
+	
+	@Override
+	public void run() {
+		int deposits[]=new int[5];
+		deposits[0]=100;
+	   deposits[1]=50;
+ 	deposits[3]=150;
+ 	deposits[4]=300;
+		
+		for(int i:deposits)
+		{
+			account.deposit(i);
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+}
+
+
+package com.threading.com;
+
+public class Drawer extends Thread {
+	private Account account;
+
+	public Drawer(Account account) {
+		super();
+		this.account = account;
+	}
+	
+	
+	@Override
+	public void run() {
+		int withdrawals[]=new int[5];
+		withdrawals[0]=50;
+        withdrawals[1]=100;
+		withdrawals[3]=150;
+		withdrawals[4]=300;
+		
+		for(int i:withdrawals)
+		{
+			account.withdraw(i);
+			try {
+			Thread.sleep(1000);
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+				
+	}
+	
+
+}
+
+output:-
+	
+insufficeint balance
+deposite the amount is : 100
+deposite succefully!!!
+withdraw the amount is : 50
+successfully withdraw !!!
+deposite the amount is : 50
+deposite succefully!!!
+withdraw the amount is : 100
+successfully withdraw !!!
+deposite the amount is : 0
+deposite succefully!!!
+withdraw the amount is : 0
+successfully withdraw !!!
+deposite the amount is : 150
+deposite succefully!!!
+withdraw the amount is : 150
+successfully withdraw !!!
+deposite the amount is : 300
+deposite succefully!!!
+withdraw the amount is : 300
+successfully withdraw !!!
+total balance is 0
+
+
+
+	
+	
  --------------------------------------------------------------------------------------------
  1.	What is the output of the following code
 public class MultiThread implements Runnable
