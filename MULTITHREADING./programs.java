@@ -2604,12 +2604,266 @@ public void run() {
 }
 
 
+===========================================================================================================================================================================================
+
+	              																		02-08-2025
+
+	
+ProducerConsumerTracker
+Thread Communication using wait() and notify()
+Problem Statement:
+
+You are developing a data processing system where one thread (Producer) is responsible for generating integer data (from 1 to 5), and another thread (Consumer) consumes and prints each number. The Producer and Consumer must strictly alternate using wait() and notify() for communication.
+
+You must ensure:
+
+The Producer produces one number at a time.
+
+The Consumer prints the same number before the next number is produced.
+
+The output follows a strict alternating sequence with no skipping, no duplication, and no overlapping.
+
+
+Class & Method Requirements:
+
+Class: SharedData
+
+Instance Variables:
+
+int number – stores the produced number.
+
+boolean produced – flag to control alternation.
+
+Methods:
+
+public synchronized void produce(int value)
+
+public synchronized void consume()
+
+Class: Producer implements Runnable
+
+Instance Variables:
+
+SharedData data
+
+int limit
+
+Method:
+
+public void run()
+
+Class: Consumer implements Runnable
+
+Instance Variables:
+
+SharedData data
+
+int limit
+
+Method:
+
+public void run()
+
+Main Class:  ProducerConsumerTracker 
+
+Prompt the user for input using Scanner.
+
+Create instances of SharedData, Producer, and Consumer.
+
+Start both threads.
+
+Validate user input for correctness.
+Sample Input
+3
+Sample Output
+Produced: 1
+Consumed: 1
+Produced: 2
+Consumed: 2
+Produced: 3
+Consumed: 3
+Constraints:
+Input must be a positive integer.
+
+Only core Java concurrency features (wait(), notify(), synchronized) should be used.
+Input:
+3
+
+Expected Output:
+Produced: 1
+Consumed: 1
+Produced: 2
+Consumed: 2
+Produced: 3
+Consumed: 3
+
+Input:
+5
+
+Expected Output:
+Produced: 1
+Consumed: 1
+Produced: 2
+Consumed: 2
+Produced: 3
+Consumed: 3
+Produced: 4
+Consumed: 4
+Produced: 5
+Consumed: 5
+Input:
+1
+
+Expected Output:
+Produced: 1
+Consumed: 1
+
+Input:
+-2
+
+Expected Output:
+Invalid input! Limit must be a positive integer.
+
+
+Input:
+abc
+
+Expected Output:
+Invalid input! Please enter a numeric value.
 
 
 
+package com.threading.com;
+
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+public class ProducerConsumerTracker {
+
+	public static void main(String[] args) {
+		Scanner sc=new Scanner(System.in);
+	int number=0;
+		try {
+          number=sc.nextInt(); 
+          if(number<1)
+          {
+        	  System.out.println("Invalid input! Limit must be a positive integer.");
+        	  System.exit(0);
+          }
+        
+     
+		}
+		catch(InputMismatchException e)
+		{
+			System.out.println("Invalid input! Please enter a numeric value.");
+		}
+        
+        
+   
+
+        SharedData sharedData=new SharedData();
+
+        Producer  producer=new Producer(sharedData,number);
+        Consumer consumer=new Consumer(sharedData,number);
+
+        producer.start();
+        consumer.start();
+
+	}
+
+}
+
+class SharedData
+{
+    int number;
+    boolean product;
+   
+
+      public synchronized void produce(int value)
+      {
+        System.out.println("Produced: "+value);
+        try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        this.number=value;
+        try{
+        wait();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+
+      }
+      public synchronized void consume()
+      {
+    	  try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        System.out.println("Consumed: "+number);
+        notify();
+
+      }
+    
+}
+class Producer extends Thread
+{
+    public SharedData data;
+    int limit;
+   
+    public Producer(SharedData data,int limit)
+    {
+        this.data=data;
+        this.limit=limit;
+
+    }
+    public void run()
+    {
+      for(int i=1;i<=limit;i++)
+      {
+        data.produce(i);
+        
+      }
+    }
+}
+class Consumer extends Thread
+{
+ public SharedData data;
+ int limit;
+
+ public Consumer(SharedData data,int limit)
+ {
+    this.data=data;
+    this.limit=limit;
+ }
+
+ public void run()
+ {
+   for(int i=1;i<=limit;i++)
+      {
+	   try {
+		Thread.sleep(2000);
+	} catch (InterruptedException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+        data.consume();
+        
+			
+		
+      }
+
+ }
+}
 
 
-
+i
 
 
 
