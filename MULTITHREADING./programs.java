@@ -2863,7 +2863,86 @@ class Consumer extends Thread
 }
 
 
-i
+
+16. What does thread.join() return upon completion?
+   It returns nothing (i.e., it is a void method).
+7. What happens if two threads try to access a synchronized method at the same time?
+   b) One waits until the other finishes
+1. Which method makes the current thread pause execution for a specified time?
+   c) sleep()
+10. To use wait() and notify(), what must a thread own before calling them?
+   a) Thread lock (also referred to as the object's monitor)
+
+21. Which of these is not required for a synchronized block?
+    c) this keyword
+   The this keyword is commonly used in synchronized blocks, but it is not required.
+   What is required is an object reference, and this is just one example of an object reference.
+	// Using 'this' keyword
+synchronized(this) {
+    // critical section
+}
+
+// Using any other object reference
+Object lock = new Object();
+synchronized(lock) {
+    // critical section
+}
+
+18. What happens if you call sleep(-10)?
+    c) Throws IllegalArgumentException
+6. What is the primary purpose of thread synchronization?
+   c) To prevent data inconsistency and race conditions
+
+2. Which exception must be handled or declared when using Thread.sleep()
+   b) InterruptedException
+27. Which will NOT release the held monitor immediately?
+   b) notify() — it does NOT release the monitor immediately.
+ synchronized(obj) {
+    obj.notify(); // Wakes one thread, but does NOT release the monitor here
+    // Still holds the lock until this block finishes
+ }
+* What is the purpose of the Thread.yield() method in Java?
+  C) To suggest that the thread scheduler can switch to another thread
+26. What is polling in context of threading?
+    b) Checking a condition repeatedly
+29. What will happen if a thread calls wait() without owning the monitor?
+    b) Throws IllegalMonitorStateException
+3. What does the join() method do in Java threads?	
+   c) Makes the calling thread wait for the thread to finish	
+8. Which synchronized block syntax is correct in Java?
+   a) synchronized(this) { ... }
+4. Which of these statements is true about the sleep() method?
+   c) sleep() can throw InterruptedException
+28. What is the default thread priority in Java?
+    c) 5
+30. When thread t1.calling t1.join(), it means:
+    c) Current thread waits for t1 to finish
+11. Which of these will insert a 2-second pause in a thread?
+    b) Thread.sleep(2000)
+20. Which method resumes all waiting threads on a monitor?
+    c) notifyAll()
+* Which of the following best describes a deadlock in Java multithreading?
+  B) When two or more threads wait indefinitely for each other to release resources
+5. Which class do the wait(), notify(), and notifyAll() methods belong to?
+   a) Object
+14. Which of the following is NOT a valid reason to synchronize code?
+    c) To make code slower
+19. After notify() is called, what state do waiting threads move to?
+    b) Runnable
+9. Which method wakes up a single thread waiting on the object's monitor?
+   c) notify()
+15. What is the output of running two incrementing threads on a non-synchronized counter?
+    c) May result in data races
+23. To use inter-thread communication, which combination is correct?
+    b) wait(), notify(), notifyAll()
+24. What happens if a thread is interrupted while sleeping?
+    b) Throws InterruptedException
+17. Which method must be used inside a synchronized context?
+    b) wait()
+12. Which of the following can cause a thread to stop waiting on wait()?
+    Answer: notify(), notifyAll(), or interruption
+13. What will happen if notify() is called but no threads are waiting?
+    b) It will do nothing	
 
 
 
