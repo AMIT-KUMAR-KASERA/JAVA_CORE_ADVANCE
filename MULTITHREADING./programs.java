@@ -2606,7 +2606,7 @@ public void run() {
 
 ===========================================================================================================================================================================================
 
-	              																		02-08-2025
+	              																		02-08-2025(Test)
 
 	
 ProducerConsumerTracker
@@ -2943,6 +2943,265 @@ synchronized(lock) {
     Answer: notify(), notifyAll(), or interruption
 13. What will happen if notify() is called but no threads are waiting?
     b) It will do nothing	
+
+
+==========================================================================================================================================================================================================================================
+																									04-08-2025
+	Objective:
+Design a COVID-19 vaccine booking application that allows users to check their eligibility based on age and health conditions. Users who meet the eligibility criteria can book a dose, and the application should handle concurrent user interactions using threads.
+
+Instructions:
+
+1.Implement the VaccineEligibility class with the following properties :
+
+-> private int age: The age of the user.
+
+-> private boolean hasHealthCondition: A boolean indicating whether the user has a health condition.
+
+-> Implement a constructor that takes age and health condition as parameters and initializes the class properties.
+
+-> Implement the isEligible() method within the VaccineEligibility class to check if a user is eligible for the vaccine. A user is eligible if their age is 18 years or above and either their age is less than 60 years or they have a health condition.
+
+
+
+2. Implement the DoseBooking class with the following property:
+
+
+
+-> private boolean booked: A boolean indicating whether the user has booked a dose.
+
+-> Implement bookDose() within the DoseBooking class to book a dose. If the dose is already booked, throw a RuntimeException with the message "Dose already booked."
+
+-> Implement isDoseBooked() within the DoseBooking class to check if the user has booked a dose.
+
+
+
+3.Define the User class with the following properties:
+
+
+
+-> private String name: The name of the user.
+
+-> private VaccineEligibility eligibility: An instance of the VaccineEligibility class to check the user's eligibility.
+
+->  private DoseBooking doseBooking: An instance of the DoseBooking class to manage dose booking for the user.
+
+-> Implement a constructor that takes the user's name, age, and health condition as parameters and initializes the class properties.
+
+
+
+-> Implement the isEligible() method within the User class to check if the user is eligible for the vaccine by using the isEligible() method of the VaccineEligibility class.
+
+-> Implement the bookDose() method within the User class to book a dose for the user if they are eligible. If the user is not eligible, throw a RuntimeException with the message "You are not eligible for the vaccine."
+
+-> Implement the isDoseBooked() method within the User class to check if the user has already booked a dose by using the isDoseBooked() method of the DoseBooking class.
+
+
+
+4. In the CoronaVaccineApp class:
+
+
+
+-> Create two User objects: user1 and user2.
+
+-> Simulate concurrent user interactions using threads by creating two threads (thread1 and thread2) with anonymous runnable instances representing the user interactions.
+
+
+
+Sample Output:
+
+Dose booked successfully for Ramesh
+
+Suresh is not eligible for the vaccine.
+---------------------------------------------------------------------------------------------
+11.	What is the output of the following program
+public class MultiThread extends Thread
+{	
+	public static void main(String[] args) {
+		MultiThread m1 = new MultiThread();
+		MultiThread m2 = new MultiThread();
+		MultiThread m3 = new MultiThread();
+		m1.start();
+		m2.start();
+		m3.start();
+		
+		for(int i=0;i<5;i++) 
+		{
+			m2.yield();
+			System.out.println(Thread.currentThread().getName());
+		}
+	}
+public void run() {
+		System.out.println(Thread.currentThread().getName());
+	}
+}
+
+
+12.	What is the output of the following code
+class Test implements Runnable
+{
+	@Override
+	public void run() {
+		Thread thread = Thread.currentThread();
+		System.out.println(thread.getState());
+	}
+}
+public class MultiThread
+{
+	public static void main(String[] args) {
+		Test nit = new Test();
+		nit.run();
+	}
+}
+
+13.	What is the output of the following snippet
+class Test implements Runnable
+{
+	@Override
+	public void run() {
+		Thread thread = Thread.currentThread();
+		thread.stop();
+		System.out.println(thread.getState());
+	}
+}
+public class MultiThread
+{
+	public static void main(String[] args) {
+		Test nit = new Test();
+		nit.run();
+	}
+}
+
+14.	What is the output of the following code
+class Test implements Runnable
+{
+	public void run() {
+		Thread thread = Thread.currentThread();
+		Thread nit = thread.currentThread();
+		System.out.println(nit.getName());		
+	}
+}
+public class MultiThread
+{
+	public static void main(String[] args) {
+		Test nit = new Test();
+		Thread thread = new Thread(nit);
+	}
+}
+
+
+15.	What is the output of the following code
+class Test implements Runnable
+{
+	public void run() {
+		Thread thread = Thread.currentThread();
+		Thread nit = thread.currentThread();
+		System.out.println(nit.getName());			
+	}
+}
+public class MultiThread
+{
+	public static void main(String[] args) {
+		Test nit = new Test();
+		Thread thread = new Thread(nit);
+		thread.start();
+	}
+}
+
+16.	What is the output of the following code
+class Test implements Runnable
+{
+	public void run() {
+		Thread thread = Thread.currentThread();
+		Thread nit = thread.currentThread();
+		System.out.println(nit.getName());
+				
+	}
+}
+public class MultiThread
+{
+	public static void main(String[] args) {
+		Test nit = new Test();
+		Thread thread = new Thread(nit);
+		thread.setName("NareshIT");
+		thread.start();
+	}
+}
+
+
+17.	What is the output of the following snippet
+public class MultiThread 
+{
+	public static void main(String[] args) {
+		Thread nit = new Thread();
+		System.out.println(nit.MIN_PRIORITY+" "+nit.MAX_PRIORITY+" "+nit.NORM_PRIORITY);
+	}
+}
+
+18.	What is the output of the following snippet
+public class MultiThread 
+{
+	public static void main(String[] args) {
+		Thread nit = new Thread();
+		System.out.println(nit.MIN_PRIORITY+nit.MAX_PRIORITY+nit.NORM_PRIORITY);
+	}
+}
+
+19) class Test implements Runnable
+{
+	public void run()
+	{{
+		for(int i=0; i<2; i++)
+		System.out.println(Thread.currentThread().getName()+" ");
+	}
+	System.out.println();
+}}
+class Test20
+{
+	public static void main(String[] args) 
+	{
+		Test t = new Test();
+		Thread t1 = new Thread();
+		Thread t2 = new Thread(t,"J2EE");
+o		Thread t3 = new Thread(t,"J2ME");
+		t1.start();t2.start();t3.start();
+
+	}
+}
+
+20)public class Test27 extends Thread
+{
+	public static void main(String[] args) 
+	{
+		try
+		{
+			Thread t= new Thread(new Test27 (),"Rahul");
+			Thread t1= new Thread(new Test27(),"Ravi");
+			t.start(); t1.start();
+		}
+		catch (Exception e)
+		{
+			System.out.println("e");
+		}
+	}
+	public void run()
+	{
+		for(int i=0; i<2; i++)
+		{
+			try
+			{
+				Thread.sleep(500);
+			}
+			catch (Exception e)
+			{
+				System.out.println("e2");
+			}
+			System.out.println(Thread.currentThread().getName()+" ");
+
+		}
+	}
+}
+
 
 
 
